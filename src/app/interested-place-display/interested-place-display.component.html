@@ -1,0 +1,12 @@
+<p *ngIf="!place.place.results">
+  ... no data yet
+</p>
+<p *ngIf="place.place.results">
+  {{place.place.distance}} / {{place.place.duration}} from
+  <mat-form-field>
+    <mat-select [(ngModel)]="place.place.selectedResult" (selectionChange)="updateResult()">
+      <mat-option *ngFor="let result of place.place.results" [value]="result">{{result.name}} - {{result.vicinity}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- ... {{data.rows[0].elements[0].distance.text}} / {{data.rows[0].elements[0].duration.text}} from -->
+</p>

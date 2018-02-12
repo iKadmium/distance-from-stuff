@@ -1,0 +1,38 @@
+<mat-card>
+	<mat-card-title>
+		Address
+	</mat-card-title>
+	<mat-card-content>
+		<mat-form-field>
+			<input matInput placeholder="Address" [(ngModel)]="address">
+		</mat-form-field>
+	</mat-card-content>
+
+
+</mat-card>
+
+<mat-card>
+	<mat-card-title>
+		I'm interested in...
+	</mat-card-title>
+	<mat-card-content>
+		<app-interested-place-select *ngFor="let place of interestedPlaces" [place]="place"></app-interested-place-select>
+	</mat-card-content>
+	<mat-card-actions>
+		<button mat-icon-button (click)="addPlace()">
+			<mat-icon>add</mat-icon>
+		</button>
+		<button mat-icon-button (click)="search()">
+			<mat-icon>search</mat-icon>
+		</button>
+	</mat-card-actions>
+</mat-card>
+
+<mat-card>
+	<mat-card-title>
+		Distances
+	</mat-card-title>
+	<mat-card-content>
+		<app-interested-place-display *ngFor="let place of interestedPlaces" [location]="location" [place]="place"></app-interested-place-display>
+	</mat-card-content>
+</mat-card>
