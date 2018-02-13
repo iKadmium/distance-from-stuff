@@ -7,8 +7,7 @@ import { TravelMethod } from "./interested-place";
 @Injectable()
 export class GoogleDistanceMatrixService
 {
-	private static url: string = 'https://maps.googleapis.com/maps/api/distancematrix/json';
-	private static key: string = 'AIzaSyCqntUVlqJNwvQLZrdO_w2G2Vb-fK6hIbo';
+	private static url: string = 'google-distance-matrix.php';
 
 	constructor(private http: HttpClient)
 	{ }
@@ -30,7 +29,7 @@ export class GoogleDistanceMatrixService
 				mode = "transit";
 				break;
 		}
-		let url = GoogleDistanceMatrixService.url + '?key=' + GoogleDistanceMatrixService.key + '&origins=' + location + '&destinations=' + destination + '&mode=' + mode;
+		let url = GoogleDistanceMatrixService.url + '?origins=' + location + '&destinations=' + destination + '&mode=' + mode;
 		let request = this.http.get<GoogleDistanceMatrixServiceResponse>(url);
 		return request;
 	}

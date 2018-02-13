@@ -29,11 +29,12 @@ export class AppComponent implements OnInit
 
 	public ngOnInit()
 	{
-		this.address = "2/15 Curwen Tce Chermside";
+		// this.address = "2/15 Curwen Tce Chermside";
+		this.address = "";
 		this.interestedPlaces = this.getDefaultPlaces();
 		this.location = {
-			lat: -27.383845,
-			lng: 153.0250059
+			lat: 0,
+			lng: 0
 		};
 	}
 
@@ -41,21 +42,32 @@ export class AppComponent implements OnInit
 	{
 		let places: InterestedPlace[] = [];
 
+		// let gym = new InterestedPlace();
+		// gym.method = TravelMethod.Walking;
+		// gym.placeName = "gym";
+
+		// let aldi = new InterestedPlace();
+		// aldi.method = TravelMethod.Walking;
+		// aldi.placeName = "Aldi";
+
+		// let city = new InterestedPlace();
+		// city.method = TravelMethod.Transit;
+		// city.placeName = "City";
+
+		// places.push(gym);
+		// places.push(aldi);
+		// places.push(city);
+
 		let gym = new InterestedPlace();
 		gym.method = TravelMethod.Walking;
 		gym.placeName = "gym";
 
 		let aldi = new InterestedPlace();
 		aldi.method = TravelMethod.Walking;
-		aldi.placeName = "Aldi";
-
-		let city = new InterestedPlace();
-		city.method = TravelMethod.Transit;
-		city.placeName = "City";
+		aldi.placeName = "supermarket";
 
 		places.push(gym);
 		places.push(aldi);
-		places.push(city);
 
 		return places;
 	}

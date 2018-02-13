@@ -5,15 +5,14 @@ import { Observable } from "rxjs/Observable";
 @Injectable()
 export class GoogleGeocodingService
 {
-	private static url: string = 'https://maps.googleapis.com/maps/api/geocode/json';
-	private static key: string = 'AIzaSyBvZdPlfS1fbMNwfb6UyCmKs3s1uj27uwA';
+	private static url: string = 'google-geocoding.php';
 
 	constructor(private http: HttpClient)
 	{ }
 
 	public getCoordinates(address: string): Observable<GoogleGeocodingResponse>
 	{
-		let request = this.http.get<GoogleGeocodingResponse>(GoogleGeocodingService.url + '?key=' + GoogleGeocodingService.key + '&address=' + address);
+		let request = this.http.get<GoogleGeocodingResponse>(GoogleGeocodingService.url + '?address=' + address);
 		return request;
 	}
 

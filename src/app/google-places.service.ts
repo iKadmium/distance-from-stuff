@@ -6,23 +6,15 @@ import { LatitudeLongitude, GoogleGeocodingGeometry } from "./google-geocoding.s
 @Injectable()
 export class GooglePlacesService
 {
-	private static url: string = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
-	private static key: string = 'AIzaSyAnePGuikyu85CewhP7dTqn2NwwrkEFBic';
+	private static url = "google-places.php";
 
 	constructor(private http: HttpClient)
 	{ }
 
-	public findPlacesByType(sourceLocation: LatitudeLongitude, type: string): Observable<GooglePlacesServiceResponse>
-	{
-		let location = sourceLocation.lat + "," + sourceLocation.lng;
-		let request = this.http.get<GooglePlacesServiceResponse>(GooglePlacesService.url + '?key=' + GooglePlacesService.key + '&location=' + location + '&rankby=distance' + '&type=' + type);
-		return request;
-	}
-
 	public findPlacesByKeyword(sourceLocation: LatitudeLongitude, keyword: string): Observable<GooglePlacesServiceResponse>
 	{
 		let location = sourceLocation.lat + "," + sourceLocation.lng;
-		let request = this.http.get<GooglePlacesServiceResponse>(GooglePlacesService.url + '?key=' + GooglePlacesService.key + '&location=' + location + '&rankby=distance' + '&keyword=' + keyword);
+		let request = this.http.get<GooglePlacesServiceResponse>(GooglePlacesService.url + '?location=' + location + '&rankby=distance' + '&keyword=' + keyword);
 		return request;
 	}
 
