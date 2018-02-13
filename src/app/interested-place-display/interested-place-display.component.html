@@ -1,12 +1,27 @@
-<p *ngIf="!place.place.results">
-  ... no data yet
-</p>
-<p *ngIf="place.place.results">
-  {{place.place.distance}} / {{place.place.duration}} from
-  <mat-form-field>
-    <mat-select [(ngModel)]="place.place.selectedResult" (selectionChange)="updateResult()">
-      <mat-option *ngFor="let result of place.place.results" [value]="result">{{result.name}} - {{result.vicinity}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <!-- ... {{data.rows[0].elements[0].distance.text}} / {{data.rows[0].elements[0].duration.text}} from -->
-</p>
+<div class="card">
+	<header class="card-header">
+		<p class="card-header-title">
+			{{place.placeName}}
+		</p>
+	</header>
+	<div class="card-content">
+		<div class="content is-medium" *ngIf="place.results">
+			{{place.distance}} / {{place.duration}} from
+
+			<div class="dropdown" [ngClass]="{'is-active': resultOpen}" (click)="resultOpen = !resultOpen">
+				<div class="dropdown-trigger">
+					<a href="#" aria-haspopup="true" aria-controls="dropdown-menu">
+						<span class="editable">{{place.selectedResult.name}} - {{place.selectedResult.vicinity}}</span>
+					</a>
+				</div>
+				<div class="dropdown-menu" role="menu">
+					<div class="dropdown-content">
+						<a *ngFor="let result of place.results" (click)="selectResult(result)" class="dropdown-item" [ngClass]="{'is-active': place.selectedResult == result}">
+							{{result.name}} - {{result.vicinity}}
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

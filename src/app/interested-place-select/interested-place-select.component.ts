@@ -1,21 +1,55 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { InterestedPlaceWrapper, InterestedPlaceTypes, TravelMethod } from "../interested-place-wrapper";
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { InterestedPlace, TravelMethod } from "../interested-place";
 
 @Component({
-  selector: 'app-interested-place-select',
-  templateUrl: './interested-place-select.component.html',
-  styleUrls: ['./interested-place-select.component.css']
+	selector: 'app-interested-place-select',
+	templateUrl: './interested-place-select.component.html',
+	styleUrls: ['./interested-place-select.component.css']
 })
 export class InterestedPlaceSelectComponent implements OnInit
 {
-  @Input() place: InterestedPlaceWrapper;
-  public TravelMethod = TravelMethod;
-  public PlaceType = InterestedPlaceTypes;
+	@Input() place: InterestedPlace;
+	@Output() onRemoved = new EventEmitter<void>();
 
-  constructor() { }
+	public TravelMethod = TravelMethod;
 
-  ngOnInit()
-  {
-  }
+	public travelMethodOpen: boolean = false;
+
+	constructor() { }
+
+	ngOnInit()
+	{
+	}
+
+	public removePlace(): void
+	{
+		this.onRemoved.emit();
+	}
+
+	public getTravelMethodText(): string
+	{
+		switch (this.place.method)
+		{
+			case TravelMethod.Transit:
+				return "Taking Public Transport";
+			default:
+				return TravelMethod[this.place.method];
+		}
+	}
+
+	public updateName(event: TextEvent): void
+	{
+		let newText = (event.target as HTMLSpanElement).innerText;
+		newText = newText.replace(/\n/g, " ");
+		(event.target as HTMLSpanElement).innerText = newText;
+		if (newText != "")
+		{
+			this.place.placeName = newText;
+		}
+		else
+		{
+			this.place.placeName = "Somewhere";
+		}
+	}
 
 }

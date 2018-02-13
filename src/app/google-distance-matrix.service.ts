@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { LatitudeLongitude } from "./google-geocoding.service";
 import { Observable } from "rxjs/Observable";
-import { TravelMethod } from "./interested-place-wrapper";
+import { TravelMethod } from "./interested-place";
 
 @Injectable()
 export class GoogleDistanceMatrixService

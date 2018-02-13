@@ -1,121 +1,28 @@
-<div>
-	<mat-form-field>
-		<mat-select placeholder="Travel Method" [(ngModel)]="place.method">
-			<mat-option [value]="TravelMethod.Walking">Walk</mat-option>
-			<mat-option [value]="TravelMethod.Driving">Drive</mat-option>
-			<mat-option [value]="TravelMethod.Transit">Take Public Transport</mat-option>
-		</mat-select>
-	</mat-form-field>
+<div class="content is-medium">
+	<div class="dropdown" [ngClass]="{'is-active': travelMethodOpen}" (click)="travelMethodOpen = !travelMethodOpen">
+		<div class="dropdown-trigger">
+			<a href="#" aria-haspopup="true" aria-controls="dropdown-menu">
+				<span class="editable">{{getTravelMethodText()}}</span>
+			</a>
+		</div>
+		<div class="dropdown-menu" role="menu">
+			<div class="dropdown-content">
+				<a (click)="place.method = TravelMethod.Walking" class="dropdown-item" [ngClass]="{'is-active': place.method == TravelMethod.Walking}">
+					Walking
+				</a>
+				<a (click)="place.method = TravelMethod.Driving" class="dropdown-item" [ngClass]="{'is-active': place.method == TravelMethod.Driving}">
+					Driving
+				</a>
+				<a (click)="place.method = TravelMethod.Transit" class="dropdown-item" [ngClass]="{'is-active': place.method == TravelMethod.Transit}">
+					Taking Public Transport
+				</a>
+			</div>
+		</div>
+	</div>
 	to
-	<mat-form-field>
-		<mat-select placeholder="Specific" [(ngModel)]="place.type">
-			<mat-option [value]="PlaceType.Type">Type of Place</mat-option>
-			<mat-option [value]="PlaceType.Name">Name of Place</mat-option>
-			<mat-option [value]="PlaceType.Address">Address</mat-option>
-		</mat-select>
-	</mat-form-field>
+	<span contenteditable="true" class="editable" (blur)="updateName($event)">{{place.getDisplayText()}}</span>
 
-	<mat-form-field *ngIf="place.type == PlaceType.Type">
-		<mat-select [(ngModel)]="place.place.placeType" placeholder="Type">
-			<mat-option value="accounting">Accounting</mat-option>
-			<mat-option value="airport">Airport</mat-option>
-			<mat-option value="amusement_park">Amusement Park</mat-option>
-			<mat-option value="aquarium">Aquarium</mat-option>
-			<mat-option value="art_gallery">Art Gallery</mat-option>
-			<mat-option value="atm">ATM</mat-option>
-			<mat-option value="bakery">Bakery</mat-option>
-			<mat-option value="bank">Bank</mat-option>
-			<mat-option value="bar">Bar</mat-option>
-			<mat-option value="beauty_salon">Beauty Salon</mat-option>
-			<mat-option value="bicycle_store">Bicycle Store</mat-option>
-			<mat-option value="book_store">Book Store</mat-option>
-			<mat-option value="bowling_alley">Bowling Alley</mat-option>
-			<mat-option value="bus_station">Bus Station</mat-option>
-			<mat-option value="cafe">Cafe</mat-option>
-			<mat-option value="campground">Campground</mat-option>
-			<mat-option value="car_dealer">Car Dealer</mat-option>
-			<mat-option value="car_rental">Car Rental</mat-option>
-			<mat-option value="car_repair">Car Repair</mat-option>
-			<mat-option value="car_wash">Car Wash</mat-option>
-			<mat-option value="casino">Casino</mat-option>
-			<mat-option value="cemetery">Cemetery</mat-option>
-			<mat-option value="church">Church</mat-option>
-			<mat-option value="city_hall">City Hall</mat-option>
-			<mat-option value="clothing_store">Clothing Store</mat-option>
-			<mat-option value="convenience_store">Convenience Store</mat-option>
-			<mat-option value="courthouse">courthouse</mat-option>
-			<mat-option value="dentist">dentist</mat-option>
-			<mat-option value="department_store">Department Store</mat-option>
-			<mat-option value="doctor">Doctor</mat-option>
-			<mat-option value="electrician">Electrician</mat-option>
-			<mat-option value="electronics_store">Electronics Store</mat-option>
-			<mat-option value="embassy">Embassy</mat-option>
-			<mat-option value="fire_station">Fire Station</mat-option>
-			<mat-option value="florist">Florist</mat-option>
-			<mat-option value="funeral_home">Funeral Home</mat-option>
-			<mat-option value="furniture_store">Furniture Store</mat-option>
-			<mat-option value="gas_station">Gas Station</mat-option>
-			<mat-option value="gym">Gym</mat-option>
-			<mat-option value="hair_care">Hair Care</mat-option>
-			<mat-option value="hardware_store">Hardware Store</mat-option>
-			<mat-option value="hindu_temple">Hindu Temple</mat-option>
-			<mat-option value="home_goods_store">Home Goods Store</mat-option>
-			<mat-option value="hospital">Hospital</mat-option>
-			<mat-option value="insurance_agency">Insurance Agency</mat-option>
-			<mat-option value="jewelry_store">Jewelry Store</mat-option>
-			<mat-option value="laundry">Laundry</mat-option>
-			<mat-option value="lawyer">Lawyer</mat-option>
-			<mat-option value="library">Library</mat-option>
-			<mat-option value="liquor_store">Liquor Store</mat-option>
-			<mat-option value="local_government_office">Local Government Office</mat-option>
-			<mat-option value="locksmith">Locksmith</mat-option>
-			<mat-option value="lodging">Lodging</mat-option>
-			<mat-option value="meal_delivery">Meal Delivery</mat-option>
-			<mat-option value="meal_takeaway">Meal Takeaway</mat-option>
-			<mat-option value="mosque">Mosque</mat-option>
-			<mat-option value="movie_rental">Movie Rental</mat-option>
-			<mat-option value="movie_theater">Movie Theater</mat-option>
-			<mat-option value="moving_company">Moving Company</mat-option>
-			<mat-option value="museum">Museum</mat-option>
-			<mat-option value="night_club">Night Club</mat-option>
-			<mat-option value="painter">Painter</mat-option>
-			<mat-option value="park">Park</mat-option>
-			<mat-option value="parking">Parking</mat-option>
-			<mat-option value="pet_store">Pet Store</mat-option>
-			<mat-option value="pharmacy">Pharmacy</mat-option>
-			<mat-option value="physiotherapist">Physiotherapist</mat-option>
-			<mat-option value="plumber">Plumber</mat-option>
-			<mat-option value="police">Police</mat-option>
-			<mat-option value="post_office">Post Office</mat-option>
-			<mat-option value="real_estate_agency">Real Estate Agency</mat-option>
-			<mat-option value="restaurant">Restaurant</mat-option>
-			<mat-option value="roofing_contractor">Roofing Contractor</mat-option>
-			<mat-option value="rv_park">RV Park</mat-option>
-			<mat-option value="school">School</mat-option>
-			<mat-option value="shoe_store">Shoe Store</mat-option>
-			<mat-option value="shopping_mall">Shopping Mall</mat-option>
-			<mat-option value="spa">Spa</mat-option>
-			<mat-option value="stadium">Stadium</mat-option>
-			<mat-option value="storage">Storage</mat-option>
-			<mat-option value="store">Store</mat-option>
-			<mat-option value="subway_station">Subway Station</mat-option>
-			<mat-option value="supermarket">Supermarket</mat-option>
-			<mat-option value="synagogue">Synagogue</mat-option>
-			<mat-option value="taxi_stand">Taxi Stand</mat-option>
-			<mat-option value="train_station">Train Station</mat-option>
-			<mat-option value="transit_station">Transit Station</mat-option>
-			<mat-option value="travel_agency">Travel Agency</mat-option>
-			<mat-option value="veterinary_care">Veterinary Care</mat-option>
-			<mat-option value="zoo">Zoo</mat-option>
-		</mat-select>
-	</mat-form-field>
-
-	<mat-form-field *ngIf="place.type == PlaceType.Name">
-		<input matInput type="text" [(ngModel)]="place.place.placeName" placeholder="Name">
-	</mat-form-field>
-
-	<mat-form-field *ngIf="place.type == PlaceType.Address">
-		<input matInput type="text" [(ngModel)]="place.place.placeAddress" placeholder="Address">
-	</mat-form-field>
-
+	<a class="is-danger" (click)="removePlace()">
+		<i class="fas fa-minus-circle"></i>
+	</a>
 </div>

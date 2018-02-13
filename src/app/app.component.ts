@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { InterestedPlace } from "./interested-place";
-import { InterestedPlaceWrapper, InterestedPlaceTypes, TravelMethod } from "./interested-place-wrapper";
-import { InterestedPlaceType } from "./interested-place-type";
+import { InterestedPlace, TravelMethod } from "./interested-place";
 import { GoogleGeocodingService, LatitudeLongitude } from "./google-geocoding.service";
 import { GoogleDistanceMatrixService } from "./google-distance-matrix.service";
 import { GooglePlacesService } from "./google-places.service";
-import { InterestedPlaceName } from "./interested-place-name";
 
 @Component({
 	selector: 'app-root',
@@ -18,8 +15,11 @@ export class AppComponent implements OnInit
 	title = 'app';
 
 	public address: string;
-	public interestedPlaces: InterestedPlaceWrapper[];
+	public interestedPlaces: InterestedPlace[];
 	public location: LatitudeLongitude;
+
+	public isSearching: boolean = false;
+	public searchComplete: boolean = false;
 
 	constructor(private geocodingService: GoogleGeocodingService, private placesService: GooglePlacesService,
 		private distanceMatrixService: GoogleDistanceMatrixService)
@@ -37,30 +37,21 @@ export class AppComponent implements OnInit
 		};
 	}
 
-	private getDefaultPlaces(): InterestedPlaceWrapper[]
+	private getDefaultPlaces(): InterestedPlace[]
 	{
-		let places: InterestedPlaceWrapper[] = [];
+		let places: InterestedPlace[] = [];
 
-		let gym = new InterestedPlaceWrapper(this.distanceMatrixService, this.geocodingService, this.placesService);
+		let gym = new InterestedPlace();
 		gym.method = TravelMethod.Walking;
-		let gymPlace = new InterestedPlaceType();
-		gym.type = InterestedPlaceTypes.Type;
-		gymPlace.placeType = "gym";
-		gym.place = gymPlace;
+		gym.placeName = "gym";
 
-		let aldi = new InterestedPlaceWrapper(this.distanceMatrixService, this.geocodingService, this.placesService);
+		let aldi = new InterestedPlace();
 		aldi.method = TravelMethod.Walking;
-		let aldiPlace = new InterestedPlaceName();
-		aldi.type = InterestedPlaceTypes.Name;
-		aldiPlace.placeName = "Aldi";
-		aldi.place = aldiPlace;
+		aldi.placeName = "Aldi";
 
-		let city = new InterestedPlaceWrapper(this.distanceMatrixService, this.geocodingService, this.placesService);
+		let city = new InterestedPlace();
 		city.method = TravelMethod.Transit;
-		let cityPlace = new InterestedPlaceName();
-		city.type = InterestedPlaceTypes.Name;
-		cityPlace.placeName = "City";
-		city.place = cityPlace;
+		city.placeName = "City";
 
 		places.push(gym);
 		places.push(aldi);
@@ -71,19 +62,38 @@ export class AppComponent implements OnInit
 
 	public addPlace(): void
 	{
-		let newPlace = new InterestedPlaceWrapper(this.distanceMatrixService, this.geocodingService, this.placesService);
+		let newPlace = new InterestedPlace();
 		this.interestedPlaces.push(newPlace);
+	}
+
+	public removePlace(place: InterestedPlace): void
+	{
+		let index = this.interestedPlaces.indexOf(place);
+		this.interestedPlaces.splice(index, 1);
 	}
 
 	public async search(): Promise<void>
 	{
+		this.isSearching = true;
+		this.searchComplete = false;
+
 		let response = await this.geocodingService.getCoordinates(this.address).toPromise();
 		this.location = response.results[0].geometry.location;
 		let promises: Promise<void>[] = [];
 		for (let place of this.interestedPlaces)
 		{
-			promises.push(place.search(this.location));
+			promises.push(place.search(this.location, this.distanceMatrixService, this.placesService));
 		}
-		await Promise.all(promises);
+		try
+		{
+			await Promise.all(promises);
+			this.searchComplete = true;
+		}
+		catch (error)
+		{
+			console.error(error);
+		}
+
+		this.isSearching = false;
 	}
 }

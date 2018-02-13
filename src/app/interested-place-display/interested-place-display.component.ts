@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { InterestedPlace } from "../interested-place";
-import { InterestedPlaceWrapper } from "../interested-place-wrapper";
 import { GoogleDistanceMatrixService } from "../google-distance-matrix.service";
 import { LatitudeLongitude } from "../google-geocoding.service";
+import { GooglePlacesResult } from "../google-places.service";
 
 @Component({
 	selector: 'app-interested-place-display',
@@ -13,7 +13,9 @@ import { LatitudeLongitude } from "../google-geocoding.service";
 export class InterestedPlaceDisplayComponent implements OnInit
 {
 	@Input() location: LatitudeLongitude;
-	@Input() place: InterestedPlaceWrapper;
+	@Input() place: InterestedPlace;
+
+	public resultOpen: boolean = false;
 
 	constructor(private distanceMatrixService: GoogleDistanceMatrixService) { }
 
@@ -21,9 +23,10 @@ export class InterestedPlaceDisplayComponent implements OnInit
 	{
 	}
 
-	public async updateResult(): Promise<void>
+	public async selectResult(result: GooglePlacesResult): Promise<void>
 	{
-		this.place.place.getDistance(this.location, this.place.method, this.distanceMatrixService);
+		this.place.selectedResult = result;
+		this.place.getDistance(this.location, this.place.method, this.distanceMatrixService);
 	}
 
 }
