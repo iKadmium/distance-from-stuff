@@ -9,9 +9,11 @@ export class InterestedPlace
     public distance: string;
     public duration: string;
 
-    public placeName: string;
+    private name: string;
 
     public method: TravelMethod;
+
+    public dirty: boolean = true;
 
     constructor()
     {
@@ -20,7 +22,7 @@ export class InterestedPlace
         this.selectedResult = null;
         this.distance = "";
         this.duration = "";
-        this.placeName = "Somewhere";
+        this.name = "Somewhere";
     }
 
     public async getDistance(sourceLocation: LatitudeLongitude, method: TravelMethod, distanceMatrixService: GoogleDistanceMatrixService): Promise<void>
@@ -35,8 +37,20 @@ export class InterestedPlace
         let response = await placesService.findPlacesByKeyword(location, this.placeName).toPromise();
         this.results = response.results;
         this.selectedResult = this.results[0];
+        this.dirty = false;
 
         await this.getDistance(location, this.method, distanceMatrixService);
+    }
+
+    public get placeName(): string
+    {
+        return this.name;
+    }
+
+    public set placeName(value: string)
+    {
+        this.name = value;
+        this.dirty = true;
     }
 
     public getDisplayText(): string

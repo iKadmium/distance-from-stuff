@@ -1,11 +1,11 @@
-<div class="card">
+<div class="card" *ngIf="place.results">
 	<header class="card-header">
 		<p class="card-header-title">
 			{{place.placeName}}
 		</p>
 	</header>
 	<div class="card-content">
-		<div class="content is-medium" *ngIf="place.results">
+		<div class="content is-medium">
 			{{place.distance}} / {{place.duration}} from
 
 			<div class="dropdown" [ngClass]="{'is-active': resultOpen}" (click)="resultOpen = !resultOpen">
