@@ -5,7 +5,7 @@ import { Observable } from "rxjs/Observable";
 @Injectable()
 export class GoogleGeocodingService
 {
-	private static url: string = 'google-geocoding.php';
+	private static url: string = 'https://flynneffectmusic.com/tempapp/google-geocoding.php';
 
 	constructor(private http: HttpClient)
 	{ }

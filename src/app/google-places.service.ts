@@ -6,7 +6,7 @@ import { LatitudeLongitude, GoogleGeocodingGeometry } from "./google-geocoding.s
 @Injectable()
 export class GooglePlacesService
 {
-	private static url = "google-places.php";
+	private static url = "https://flynneffectmusic.com/tempapp/google-places.php";
 
 	constructor(private http: HttpClient)
 	{ }

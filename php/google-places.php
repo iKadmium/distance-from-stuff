@@ -1,5 +1,4 @@
 <?php
- header("Access-Control-Allow-Origin: *");
 $urlBase = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
 $key = "AIzaSyAnePGuikyu85CewhP7dTqn2NwwrkEFBic";
 

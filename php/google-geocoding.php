@@ -1,5 +1,5 @@
 <?php
- header("Access-Control-Allow-Origin: *");
+ //header("Access-Control-Allow-Origin: *");
 $urlBase = "https://maps.googleapis.com/maps/api/geocode/json";
 $key = "AIzaSyBvZdPlfS1fbMNwfb6UyCmKs3s1uj27uwA";
 

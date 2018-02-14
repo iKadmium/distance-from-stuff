@@ -16,6 +16,7 @@ export class InterestedPlaceDisplayComponent implements OnInit
 	@Input() place: InterestedPlace;
 
 	public resultOpen: boolean = false;
+	public errors: string[] = [];
 
 	constructor(private distanceMatrixService: GoogleDistanceMatrixService) { }
 
@@ -26,7 +27,7 @@ export class InterestedPlaceDisplayComponent implements OnInit
 	public async selectResult(result: GooglePlacesResult): Promise<void>
 	{
 		this.place.selectedResult = result;
-		this.place.getDistance(this.location, this.place.method, this.distanceMatrixService);
+		this.place.getDistance(this.location, this.place.method, this.distanceMatrixService, this.errors);
 	}
 
 }

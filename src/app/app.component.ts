@@ -21,6 +21,8 @@ export class AppComponent implements OnInit
 	public isSearching: boolean = false;
 	public searchComplete: boolean = false;
 
+	public errors: string[] = [];
+
 	constructor(private geocodingService: GoogleGeocodingService, private placesService: GooglePlacesService,
 		private distanceMatrixService: GoogleDistanceMatrixService)
 	{
@@ -60,11 +62,11 @@ export class AppComponent implements OnInit
 
 		let gym = new InterestedPlace();
 		gym.method = TravelMethod.Walking;
-		gym.placeName = "gym";
+		gym.name = "gym";
 
 		let aldi = new InterestedPlace();
 		aldi.method = TravelMethod.Walking;
-		aldi.placeName = "supermarket";
+		aldi.name = "supermarket";
 
 		places.push(gym);
 		places.push(aldi);
@@ -89,21 +91,27 @@ export class AppComponent implements OnInit
 		this.isSearching = true;
 		this.searchComplete = false;
 
-		let response = await this.geocodingService.getCoordinates(this.address).toPromise();
-		this.location = response.results[0].geometry.location;
-		let promises: Promise<void>[] = [];
-		for (let place of this.interestedPlaces)
-		{
-			promises.push(place.search(this.location, this.distanceMatrixService, this.placesService));
-		}
+		this.errors = [];
+
 		try
 		{
+			let response = await this.geocodingService.getCoordinates(this.address).toPromise();
+			if (response.status != "OK")
+			{
+				throw new Error(response.status);
+			}
+			this.location = response.results[0].geometry.location;
+			let promises: Promise<void>[] = [];
+			for (let place of this.interestedPlaces)
+			{
+				promises.push(place.search(this.location, this.distanceMatrixService, this.placesService, this.errors));
+			}
 			await Promise.all(promises);
 			this.searchComplete = true;
 		}
 		catch (error)
 		{
-			console.error(error);
+			this.errors.push(error.message);
 		}
 
 		this.isSearching = false;

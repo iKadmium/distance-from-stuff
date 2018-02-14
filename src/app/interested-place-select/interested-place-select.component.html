@@ -1,28 +1,35 @@
-<div class="content is-medium">
-	<div class="dropdown" [ngClass]="{'is-active': travelMethodOpen}" (click)="travelMethodOpen = !travelMethodOpen">
-		<div class="dropdown-trigger">
-			<a aria-haspopup="true" aria-controls="dropdown-menu">
-				<span class="editable">{{getTravelMethodText()}}</span>
-			</a>
-		</div>
-		<div class="dropdown-menu" role="menu">
-			<div class="dropdown-content">
-				<a (click)="place.method = TravelMethod.Walking" class="dropdown-item" [ngClass]="{'is-active': place.method == TravelMethod.Walking}">
-					Walking
-				</a>
-				<a (click)="place.method = TravelMethod.Driving" class="dropdown-item" [ngClass]="{'is-active': place.method == TravelMethod.Driving}">
-					Driving
-				</a>
-				<a (click)="place.method = TravelMethod.Transit" class="dropdown-item" [ngClass]="{'is-active': place.method == TravelMethod.Transit}">
-					Taking Public Transport
-				</a>
+<div class="card">
+	<header class="card-header">
+		<div class="card-header-title">
+			<div class="field has-addons">
+				<p class="control">
+					<span class="select">
+						<select [(ngModel)]="place.method">
+							<option [ngValue]="TravelMethod.Walking">Walking</option>
+							<option [ngValue]="TravelMethod.Driving">Driving</option>
+							<option [ngValue]="TravelMethod.Transit">Taking Public Transport</option>
+						</select>
+					</span>
+				</p>
+				<p class="control">
+					<a class="button is-static">
+						to
+					</a>
+				</p>
+				<p class="control">
+					<input class="input" type="text" placeholder="Location" [(ngModel)]="place.name" required #inputControl="ngModel" [ngClass]="{'is-danger': inputControl.dirty && inputControl.invalid}">
+				</p>
+				<p class="control">
+					<a class="button is-danger" (click)="removePlace()">
+						<i class="fas fa-minus-circle"></i>
+					</a>
+				</p>
 			</div>
 		</div>
-	</div>
-	to
-	<span contenteditable="true" class="editable" (blur)="updateName($event)">{{place.getDisplayText()}}</span>
+	</header>
+	<div class="card-content">
+		<div class="content is-medium">
 
-	<a class="is-danger" (click)="removePlace()">
-		<i class="fas fa-minus-circle"></i>
-	</a>
+		</div>
+	</div>
 </div>

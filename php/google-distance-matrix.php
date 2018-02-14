@@ -1,5 +1,4 @@
 <?php
- header("Access-Control-Allow-Origin: *");
 $urlBase = "https://maps.googleapis.com/maps/api/distancematrix/json";
 $key = "AIzaSyCqntUVlqJNwvQLZrdO_w2G2Vb-fK6hIbo";
 

@@ -7,7 +7,7 @@ import { TravelMethod } from "./interested-place";
 @Injectable()
 export class GoogleDistanceMatrixService
 {
-	private static url: string = 'google-distance-matrix.php';
+	private static url: string = 'https://flynneffectmusic.com/tempapp/google-distance-matrix.php';
 
 	constructor(private http: HttpClient)
 	{ }

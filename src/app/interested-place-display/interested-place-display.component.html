@@ -1,12 +1,12 @@
-<div class="card" *ngIf="place.results">
+<div class="card" *ngIf="place.results && !place.dirty">
 	<header class="card-header">
 		<p class="card-header-title">
-			{{place.placeName}}
+			{{place.name}}
 		</p>
 	</header>
 	<div class="card-content">
 		<div class="content is-medium">
-			{{place.distance}} / {{place.duration}} from
+			<!-- {{place.distance}} / {{place.duration}} from
 
 			<div class="dropdown" [ngClass]="{'is-active': resultOpen}" (click)="resultOpen = !resultOpen">
 				<div class="dropdown-trigger">
@@ -21,6 +21,20 @@
 						</a>
 					</div>
 				</div>
+			</div> -->
+			<div class="field has-addons">
+				<p class="control">
+					<a class="button is-static">
+						{{place.distance}} / {{place.duration}} from
+					</a>
+				</p>
+				<p class="control">
+					<span class="select">
+						<select [(ngModel)]="place.selectedResult">
+							<option *ngFor="let result of place.results" [ngValue]="result">{{result.name}} - {{result.vicinity}}</option>
+						</select>
+					</span>
+				</p>
 			</div>
 		</div>
 	</div>
