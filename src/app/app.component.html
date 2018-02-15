@@ -2,15 +2,12 @@
 	<div class="hero-body">
 		<div class="container">
 			<h2 class="title">I'm interested in...</h2>
-			<ul>
-				<li *ngFor="let place of interestedPlaces">
-					<app-interested-place-select [place]="place" (onRemoved)="removePlace(place)"></app-interested-place-select>
-				</li>
-			</ul>
-
-			<a class="button is-success" (click)="addPlace()">
-				<i class="fas fa-plus-circle"></i>
-			</a>
+			<div class="field">
+				<app-interested-place-select *ngFor="let place of interestedPlaces" [place]="place" (onRemoved)="removePlace(place)"></app-interested-place-select>
+			</div>
+			<button class="button is-success is-large" (click)="addPlace()">
+				<i class="fas fa-plus-circle"></i> &nbsp;&nbsp;Add Place
+			</button>
 
 		</div>
 	</div>
@@ -27,7 +24,7 @@
 			</div>
 
 			<button class="button is-primary is-large" [ngClass]="{'is-loading': isSearching}" (click)="search()" [disabled]="address == '' || interestedPlaces.length == 0">
-				<i class="fas fa-search"></i> Search
+				<i class="fas fa-search"></i> &nbsp;&nbsp;Search
 			</button>
 		</div>
 	</div>
@@ -50,7 +47,7 @@
 	</div>
 </section>
 
-<section class="hero is-success" *ngIf="searchComplete">
+<section class="hero is-success" *ngIf="location">
 	<div class="hero-body">
 		<div class="container">
 			<h2 class="title">Results</h2>

@@ -1,35 +1,30 @@
-<div class="card">
-	<header class="card-header">
-		<div class="card-header-title">
-			<div class="field has-addons">
-				<p class="control">
-					<span class="select">
-						<select [(ngModel)]="place.method">
-							<option [ngValue]="TravelMethod.Walking">Walking</option>
-							<option [ngValue]="TravelMethod.Driving">Driving</option>
-							<option [ngValue]="TravelMethod.Transit">Taking Public Transport</option>
-						</select>
-					</span>
-				</p>
-				<p class="control">
-					<a class="button is-static">
-						to
-					</a>
-				</p>
-				<p class="control">
-					<input class="input" type="text" placeholder="Location" [(ngModel)]="place.name" required #inputControl="ngModel" [ngClass]="{'is-danger': inputControl.dirty && inputControl.invalid}">
-				</p>
-				<p class="control">
-					<a class="button is-danger" (click)="removePlace()">
-						<i class="fas fa-minus-circle"></i>
-					</a>
-				</p>
-			</div>
-		</div>
-	</header>
-	<div class="card-content">
-		<div class="content is-medium">
-
-		</div>
+<div class="field has-addons">
+	<div class="control">
+		<span class="select">
+			<select [(ngModel)]="place.method">
+				<option [ngValue]="TravelMethod.Walking">Walking</option>
+				<option [ngValue]="TravelMethod.Driving">Driving</option>
+				<option [ngValue]="TravelMethod.Transit">Transit</option>
+			</select>
+		</span>
+	</div>
+	<div class="control">
+		<a class="button is-static">
+			to
+		</a>
+	</div>
+	<div class="control">
+		<input class="input" type="text" placeholder="Location" [(ngModel)]="place.name" required #inputControl="ngModel" [ngClass]="{'is-danger': inputControl.dirty && inputControl.invalid}"
+		 [ngModelOptions]="{ updateOn: 'blur'}">
+	</div>
+	<!-- <div class="control">
+		<a class="button" (click)="options()">
+			<i class="fas fa-cog"></i>
+		</a>
+	</div> -->
+	<div class="control">
+		<a class="button is-danger" (click)="removePlace()">
+			<i class="fas fa-minus-circle"></i>
+		</a>
 	</div>
 </div>

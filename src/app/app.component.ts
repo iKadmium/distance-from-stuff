@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren, ContentChildren } from '@angular/core';
 import { InterestedPlace, TravelMethod } from "./interested-place";
 import { GoogleGeocodingService, LatitudeLongitude } from "./google-geocoding.service";
 import { GoogleDistanceMatrixService } from "./google-distance-matrix.service";
 import { GooglePlacesService } from "./google-places.service";
+import { InterestedPlaceDisplayComponent } from "./interested-place-display/interested-place-display.component";
 
 @Component({
 	selector: 'app-root',
@@ -14,13 +15,13 @@ export class AppComponent implements OnInit
 {
 	title = 'app';
 
+	@ViewChildren(InterestedPlaceDisplayComponent) placeDisplays: QueryList<InterestedPlaceDisplayComponent>;
+
 	public address: string;
 	public interestedPlaces: InterestedPlace[];
-	public location: LatitudeLongitude;
+	public location: LatitudeLongitude = null;
 
 	public isSearching: boolean = false;
-	public searchComplete: boolean = false;
-
 	public errors: string[] = [];
 
 	constructor(private geocodingService: GoogleGeocodingService, private placesService: GooglePlacesService,
@@ -34,10 +35,6 @@ export class AppComponent implements OnInit
 		// this.address = "2/15 Curwen Tce Chermside";
 		this.address = "";
 		this.interestedPlaces = this.getDefaultPlaces();
-		this.location = {
-			lat: 0,
-			lng: 0
-		};
 	}
 
 	private getDefaultPlaces(): InterestedPlace[]
@@ -89,7 +86,7 @@ export class AppComponent implements OnInit
 	public async search(): Promise<void>
 	{
 		this.isSearching = true;
-		this.searchComplete = false;
+		this.location = null;
 
 		this.errors = [];
 
@@ -101,13 +98,6 @@ export class AppComponent implements OnInit
 				throw new Error(response.status);
 			}
 			this.location = response.results[0].geometry.location;
-			let promises: Promise<void>[] = [];
-			for (let place of this.interestedPlaces)
-			{
-				promises.push(place.search(this.location, this.distanceMatrixService, this.placesService, this.errors));
-			}
-			await Promise.all(promises);
-			this.searchComplete = true;
 		}
 		catch (error)
 		{

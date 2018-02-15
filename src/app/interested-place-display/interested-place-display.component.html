@@ -1,41 +1,42 @@
-<div class="card" *ngIf="place.results && !place.dirty">
+<div class="card">
 	<header class="card-header">
 		<p class="card-header-title">
-			{{place.name}}
+			{{getMethodText()}} to {{place.name}}
 		</p>
 	</header>
 	<div class="card-content">
 		<div class="content is-medium">
-			<!-- {{place.distance}} / {{place.duration}} from
-
-			<div class="dropdown" [ngClass]="{'is-active': resultOpen}" (click)="resultOpen = !resultOpen">
-				<div class="dropdown-trigger">
-					<a aria-haspopup="true" aria-controls="dropdown-menu">
-						<span class="editable">{{place.selectedResult.name}} - {{place.selectedResult.vicinity}}</span>
-					</a>
-				</div>
-				<div class="dropdown-menu" role="menu">
-					<div class="dropdown-content">
-						<a *ngFor="let result of place.results" (click)="selectResult(result)" class="dropdown-item" [ngClass]="{'is-active': place.selectedResult == result}">
-							{{result.name}} - {{result.vicinity}}
-						</a>
-					</div>
-				</div>
-			</div> -->
-			<div class="field has-addons">
-				<p class="control">
-					<a class="button is-static">
-						{{place.distance}} / {{place.duration}} from
-					</a>
-				</p>
+			<p *ngFor="let error of placeErrors">
+				{{error}}
+			</p>
+			<p *ngIf="searchingForPlaces">
+				Searching for results...
+			</p>
+			<div class="field" *ngIf="results.length > 0 && !searchingForPlaces">
 				<p class="control">
 					<span class="select">
-						<select [(ngModel)]="place.selectedResult">
-							<option *ngFor="let result of place.results" [ngValue]="result">{{result.name}} - {{result.vicinity}}</option>
+						<select [(ngModel)]="selectedResult" (change)="getDistance()">
+							<option *ngFor="let result of results" [ngValue]="result">{{result.name}} - {{result.vicinity}}</option>
 						</select>
 					</span>
 				</p>
 			</div>
 		</div>
+	</div>
+	<div class="card-footer">
+		<p class="card-footer-item" *ngIf="!searchingForDistance && !searchingForPlaces">
+			<span *ngIf="distanceErrors.length == 0">
+				{{distance}} / {{duration}}
+			</span>
+			<span *ngFor="let error of distanceErrors">{{error}}</span>
+		</p>
+		<p class="card-footer-item" *ngIf="searchingForDistance || searchingForPlaces">
+			Finding distance...
+		</p>
+		<p class="card-footer-item" *ngIf="!searchingForDistance && !searchingForPlaces && distanceErrors.length == 0">
+			<a [href]="getMapsLink()">
+				<i class="fas fa-map"></i>
+			</a>
+		</p>
 	</div>
 </div>

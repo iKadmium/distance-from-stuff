@@ -1,49 +1,21 @@
 import { LatitudeLongitude } from "./google-geocoding.service";
 import { GooglePlacesResult, GooglePlacesService } from "./google-places.service";
 import { GoogleDistanceMatrixService } from "./google-distance-matrix.service";
+import { Subject } from "rxjs/Subject";
+import { Observable } from "rxjs/Observable";
 
 export class InterestedPlace
 {
-    public results: GooglePlacesResult[];
-    public selectedResult: GooglePlacesResult;
-    public distance: string = null;
-    public duration: string = null;
-
     private _name: string = "Somewhere";
+    private _method: TravelMethod = TravelMethod.Walking;
 
-    public method: TravelMethod;
-
-    public dirty: boolean = true;
+    private methodSubject: Subject<TravelMethod>;
+    private nameSubject: Subject<string>;
 
     constructor()
     {
-        this.method = TravelMethod.Walking;
-        this.results = null;
-        this.selectedResult = null;
-    }
-
-    public async getDistance(sourceLocation: LatitudeLongitude, method: TravelMethod, distanceMatrixService: GoogleDistanceMatrixService, errors: string[]): Promise<void>
-    {
-        try
-        {
-            let result = await distanceMatrixService.getDistance(sourceLocation, this.selectedResult.geometry.location, method).toPromise();
-            this.distance = result.rows[0].elements[0].distance.text;
-            this.duration = result.rows[0].elements[0].duration.text;
-        }
-        catch (error)
-        {
-            errors.push(error.message);
-        }
-    }
-
-    public async search(location: LatitudeLongitude, distanceMatrixService: GoogleDistanceMatrixService, placesService: GooglePlacesService, errors: string[]): Promise<void>
-    {
-        let response = await placesService.findPlacesByKeyword(location, this.name).toPromise();
-        this.results = response.results;
-        this.selectedResult = this.results[0];
-        this.dirty = false;
-
-        await this.getDistance(location, this.method, distanceMatrixService, errors);
+        this.methodSubject = new Subject<TravelMethod>();
+        this.nameSubject = new Subject<string>();
     }
 
     public get name(): string
@@ -54,7 +26,28 @@ export class InterestedPlace
     public set name(value: string)
     {
         this._name = value;
-        this.dirty = true;
+        this.nameSubject.next(value);
+    }
+
+    public get nameObservable(): Observable<string>
+    {
+        return this.nameSubject.asObservable();
+    }
+
+    public get method(): TravelMethod
+    {
+        return this._method;
+    }
+
+    public set method(value: TravelMethod)
+    {
+        this._method = value;
+        this.methodSubject.next(value);
+    }
+
+    public get methodObservable(): Observable<TravelMethod>
+    {
+        return this.methodSubject.asObservable();
     }
 }
 
